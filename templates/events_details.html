@@ -34,7 +34,7 @@
                         <p class="event_details"><strong>Price:</strong>&nbsp;{{ price }}</p>
                         <p class="event_details"><strong>Venue:</strong>&nbsp;{{ venue }}</p>
                         <br><br>
-                        {% if register_url == "" %}
+                        {% if register_url == None %}
                             <button disabled>Registration Not Open</button>
                         {% else %}
                             <a href="{{ register_url }}"><button>Register</button></a>
