@@ -123,12 +123,12 @@ def index():
         'venue',
         'register url'
     ]]
-    ttsh_df['datetime'] = ttsh_df.apply(create_datetime, axis = 1)
+    events_df['datetime'] = events_df.apply(create_datetime, axis = 1)
     current_datetime = current_date.today()
-    events_df = events_df[ttsh_df['datetime'].dt.date >= current_datetime]
-    events_df = events_df.sort_values('datetime', ascending = True)
+    events_df = events_df[events_df['datetime'].dt.date >= current_datetime]
+    events_df = events_df.sort_values(by = ['datetime'], ascending = True)
     events_df = events_df.drop_duplicates(subset = ['event name'])
-    upcoming_events = ttsh_df.head(6)
+    upcoming_events = events_df.head(6)
     upcoming_events_html = events_html_generator(upcoming_events)
     return render_template("index.html", upcoming_events_html = upcoming_events_html)
 
@@ -212,7 +212,7 @@ def events_search(start):
         months_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         search_criteria.append(f"<strong>{months_list[search_month - 1]} {search_year}</strong> (month, year)")
     if mode != "Mode":
-        events_df = events_df[ttsh_df['mode'] == mode]
+        events_df = events_df[events_df['mode'] == mode]
         search_criteria.append(f"<strong>{mode}</strong> (mode)")
     if price != "":
         if int(price) == 0:
@@ -222,9 +222,9 @@ def events_search(start):
             events_df = events_df[events_df['price'] <= int(price)]
         search_criteria.append(f"<strong>SG${price}</strong> (price)")
     events_df = events_df.drop_duplicates(subset = ['event name'])
-    events_html = events_html_generator(ttsh_df)
+    events_html = events_html_generator(events_df)
     search_criteria = "You have searched for " + ", ".join(search_criteria)
-    if ttsh_df.empty:
+    if events_df.empty:
         search_criteria = "No events found"
     if start == '0':
         search_type = 0
