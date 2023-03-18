@@ -165,6 +165,7 @@ def events_search(start):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
+    events_df = pd.concat([ttsh_df, kkh_df, nuhs_df], axis = 1)
     events_df = events_df[[
         'event name',
         'organiser',
