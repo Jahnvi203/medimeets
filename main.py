@@ -117,15 +117,11 @@ def index():
         'start time',
         'end time',
         'description',
-        'add info',
         'fee type',
         'fees',
-        'saot fees',
-        'non saot fees',
         'mode',
         'venue',
-        'contact person',
-        'contact email'
+        'register url'
     ]]
     ttsh_df['datetime'] = ttsh_df.apply(create_datetime, axis = 1)
     current_datetime = current_date.today()
@@ -185,15 +181,11 @@ def events_search(start):
         'start time',
         'end time',
         'description',
-        'add info',
         'fee type',
         'fees',
-        'saot fees',
-        'non saot fees',
         'mode',
         'venue',
-        'contact person',
-        'contact email'
+        'register url'
     ]]
     if keyword != "" and category != "Category":
         events_df = events_df[events_df['speciality'] == category.lower()]
