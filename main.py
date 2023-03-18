@@ -55,10 +55,10 @@ def events_html_generator(df):
         else:
             date = f'{months_list[int(item[8]) - 1]} {item[7]} - {months_list[int(item[11]) - 1]} {item[10]}'
         price = ""
-        if item[18] == "Free":
+        if item[17] == "Free":
             price = "Free"
         else:
-            price = "SG$" + item[19]
+            price = "SG$" + str(item[18])
             price = price.replace("; ", "; SG$")
         time = ""
         if item[13] == True:
@@ -66,10 +66,10 @@ def events_html_generator(df):
         else:
             time = 'To Be Determined'
         location = ""
-        if item[22] == "Virtual":
+        if item[18] == "Virtual":
             location = "Virtual"
         else:
-            location = item[23]
+            location = item[19]
         html += f"""
             <div class="row">
                 <div class="col-3">
@@ -99,6 +99,9 @@ def index():
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
+    ttsh_df = ttsh_df.iloc[:, 1:]
+    kkh_df = kkh_df.iloc[:, 1:]
+    nuhs_df = nuhs_df.iloc[:, 1:]
     events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
     events_df = pd.DataFrame(events_results, columns = [
         'event name',
@@ -124,30 +127,6 @@ def index():
         'venue',
         'register url'
     ])
-    events_df = events_df[[
-        'event name',
-        'organiser',
-        'speciality',
-        'keyword',
-        'similarity',
-        'date present',
-        'description present',
-        'start year',
-        'start month',
-        'start date',
-        'end year',
-        'end month',
-        'end date',
-        'time present',
-        'start time',
-        'end time',
-        'description',
-        'fee type',
-        'fees',
-        'mode',
-        'venue',
-        'register url'
-    ]]
     events_df['datetime'] = events_df.apply(create_datetime, axis = 1)
     current_datetime = current_date.today()
     events_df = events_df[events_df['datetime'].dt.date >= current_datetime]
@@ -187,6 +166,9 @@ def events_search(start):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
+    ttsh_df = ttsh_df.iloc[:, 1:]
+    kkh_df = kkh_df.iloc[:, 1:]
+    nuhs_df = nuhs_df.iloc[:, 1:]
     events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
     events_df = pd.DataFrame(events_results, columns = [
         'event name',
@@ -286,6 +268,9 @@ def event_details(event_name):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
+    ttsh_df = ttsh_df.iloc[:, 1:]
+    kkh_df = kkh_df.iloc[:, 1:]
+    nuhs_df = nuhs_df.iloc[:, 1:]
     events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
     events_df = pd.DataFrame(events_results, columns = [
         'event name',
@@ -311,30 +296,6 @@ def event_details(event_name):
         'venue',
         'register url'
     ])
-    events_df = events_df[[
-        'event name',
-        'organiser',
-        'speciality',
-        'keyword',
-        'similarity',
-        'date present',
-        'description present',
-        'start year',
-        'start month',
-        'start date',
-        'end year',
-        'end month',
-        'end date',
-        'time present',
-        'start time',
-        'end time',
-        'description',
-        'fee type',
-        'fees',
-        'mode',
-        'venue',
-        'register url'
-    ]]
     event_df = events_df[events_df['event name'] == event_name]
     event_df = event_df.drop_duplicates(subset = ['event name'])
     event = event_df.values.tolist()[0]
