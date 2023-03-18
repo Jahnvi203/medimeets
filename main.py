@@ -96,7 +96,9 @@ def events_html_generator(df):
 @app.route('/')
 def index():
     ttsh_df = pd.read_csv("resources/ttsh.csv")
-    ttsh_df = ttsh_df[[
+    kkh_df = pd.read_csv("resources/kkh.csv")
+    nuhs_df = pd.read_csv("resources/nuhs.csv")
+    events_df = events_df[[
         'event name',
         'organiser',
         'speciality',
@@ -126,9 +128,9 @@ def index():
     ]]
     ttsh_df['datetime'] = ttsh_df.apply(create_datetime, axis = 1)
     current_datetime = current_date.today()
-    ttsh_df = ttsh_df[ttsh_df['datetime'].dt.date >= current_datetime]
-    ttsh_df = ttsh_df.sort_values('datetime', ascending = True)
-    ttsh_df = ttsh_df.drop_duplicates(subset = ['event name'])
+    events_df = events_df[ttsh_df['datetime'].dt.date >= current_datetime]
+    events_df = events_df.sort_values('datetime', ascending = True)
+    events_df = events_df.drop_duplicates(subset = ['event name'])
     upcoming_events = ttsh_df.head(6)
     upcoming_events_html = events_html_generator(upcoming_events)
     return render_template("index.html", upcoming_events_html = upcoming_events_html)
@@ -161,7 +163,9 @@ def events_search(start):
         price = request.form.to_dict()['price']
         mode = request.form.to_dict()['mode']
     ttsh_df = pd.read_csv("resources/ttsh.csv")
-    ttsh_df = ttsh_df[[
+    kkh_df = pd.read_csv("resources/kkh.csv")
+    nuhs_df = pd.read_csv("resources/nuhs.csv")
+    events_df = events_df[[
         'event name',
         'organiser',
         'speciality',
@@ -190,40 +194,40 @@ def events_search(start):
         'contact email'
     ]]
     if keyword != "" and category != "Category":
-        ttsh_df = ttsh_df[ttsh_df['speciality'] == category.lower()]
-        ttsh_df['keyword similarity'] = ttsh_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
-        ttsh_df['overall similarity'] = (ttsh_df['similarity'] + ttsh_df['keyword similarity']) / 2
-        ttsh_df = ttsh_df.sort_values('overall similarity', ascending = False)
-        ttsh_df = ttsh_df[ttsh_df['overall similarity'] >= 0.45]
+        events_df = events_df[events_df['speciality'] == category.lower()]
+        events_df['keyword similarity'] = events_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
+        events_df['overall similarity'] = (events_df['similarity'] + events_df['keyword similarity']) / 2
+        events_df = events_df.sort_values('overall similarity', ascending = False)
+        events_df = events_df[events_df['overall similarity'] >= 0.45]
         search_criteria.append(f"<strong>{keyword.lower()}</strong> (keyword)")
         search_criteria.append(f"<strong>{category}</strong> (category)")
     elif keyword != "" and category == "Category":
-        ttsh_df['keyword similarity'] = ttsh_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
-        ttsh_df = ttsh_df.sort_values('keyword similarity', ascending = False)
-        ttsh_df = ttsh_df[ttsh_df['keyword similarity'] >= 0.5]
+        events_df['keyword similarity'] = events_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
+        events_df = events_df.sort_values('keyword similarity', ascending = False)
+        events_df = events_df[events_df['keyword similarity'] >= 0.5]
         search_criteria.append(f"<strong>{keyword.lower()}</strong> (keyword)")
     elif keyword == "" and category != "Category":
-        ttsh_df = ttsh_df[ttsh_df['speciality'] == category.lower()]
-        ttsh_df = ttsh_df.sort_values('similarity', ascending = False)
-        ttsh_df = ttsh_df[ttsh_df['similarity'] >= 0.4]
+        events_df = events_df[events_df['speciality'] == category.lower()]
+        events_df = events_df.sort_values('similarity', ascending = False)
+        events_df = events_df[events_df['similarity'] >= 0.4]
         search_criteria.append(f"<strong>{category}</strong> (category)")
     if month != "":
         search_month = int(month.split("-")[1])
         search_year = int(month.split("-")[0])
-        ttsh_df = ttsh_df[(ttsh_df['start month'] >= search_month) & (ttsh_df['start year'] >= search_year)]
+        events_df = events_df[(events_df['start month'] >= search_month) & (events_df['start year'] >= search_year)]
         months_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
         search_criteria.append(f"<strong>{months_list[search_month - 1]} {search_year}</strong> (month, year)")
     if mode != "Mode":
-        ttsh_df = ttsh_df[ttsh_df['mode'] == mode]
+        events_df = events_df[ttsh_df['mode'] == mode]
         search_criteria.append(f"<strong>{mode}</strong> (mode)")
     if price != "":
         if int(price) == 0:
-            ttsh_df = ttsh_df[ttsh_df['fee type'] == "Free"]
+            events_df = events_df[events_df['fee type'] == "Free"]
         else:
-            ttsh_df['price'] = ttsh_df['fees'].apply(lambda x: get_price_filter(x))
-            ttsh_df = ttsh_df[ttsh_df['price'] <= int(price)]
+            events_df['price'] = events_df['fees'].apply(lambda x: get_price_filter(x))
+            events_df = events_df[events_df['price'] <= int(price)]
         search_criteria.append(f"<strong>SG${price}</strong> (price)")
-    ttsh_df = ttsh_df.drop_duplicates(subset = ['event name'])
+    events_df = events_df.drop_duplicates(subset = ['event name'])
     events_html = events_html_generator(ttsh_df)
     search_criteria = "You have searched for " + ", ".join(search_criteria)
     if ttsh_df.empty:
@@ -237,7 +241,10 @@ def events_search(start):
 @app.route("/events-details/<event_name>", methods = ['POST', 'GET'])
 def event_details(event_name):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
-    ttsh_df = ttsh_df[[
+    kkh_df = pd.read_csv("resources/kkh.csv")
+    nuhs_df = pd.read_csv("resources/nuhs.csv")
+    events_df = pd.concat([ttsh_df, kkh_df, nuhs_df], axis = 1)
+    events_df = events_df[[
         'event name',
         'organiser',
         'speciality',
@@ -261,7 +268,7 @@ def event_details(event_name):
         'venue',
         'register url'
     ]]
-    event_df = ttsh_df[ttsh_df['event name'] == event_name]
+    event_df = events_df[events_df['event name'] == event_name]
     event_df = event_df.drop_duplicates(subset = ['event name'])
     event = event_df.values.tolist()[0]
     description = event[16]
