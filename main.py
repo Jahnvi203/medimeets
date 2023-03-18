@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import os
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -104,6 +104,107 @@ def index():
     upcoming_events = ttsh_df.head(6)
     upcoming_events_html = events_html_generator(upcoming_events)
     return render_template("index.html", upcoming_events_html = upcoming_events_html)
+
+def get_keyword_sim(x, keyword):
+    nlp_x = nlp(x)
+    nlp_keyword = nlp(keyword)
+    return nlp_keyword.similarity(nlp_x)
+
+def get_price_filter(x):
+    x_int = 0
+    try:
+        x_int = float(x)
+    except:
+        x_int = float(x.split("; ")[-1].split(" ")[0])
+    return x_int
+
+@app.route("/browse-events/<start>", methods = ['GET', 'POST'])
+def events_search(start):
+    keyword = ""
+    category = "Category"
+    month = ""
+    price = ""
+    search_criteria = []
+    mode = "Mode"
+    if int(start) == 1:
+        keyword = request.form.to_dict()['keyword']
+        category = request.form.to_dict()['category']
+        month = request.form.to_dict()['month']
+        price = request.form.to_dict()['price']
+        mode = request.form.to_dict()['mode']
+    ttsh_df = pd.read_csv("resources/ttsh.csv")
+    ttsh_df = ttsh_df[[
+        'event name',
+        'organiser',
+        'speciality',
+        'keyword',
+        'similarity',
+        'date present',
+        'description present',
+        'start year',
+        'start month',
+        'start date',
+        'end year',
+        'end month',
+        'end date',
+        'time present',
+        'start time',
+        'end time',
+        'description',
+        'add info',
+        'fee type',
+        'fees',
+        'saot fees',
+        'non saot fees',
+        'mode',
+        'venue',
+        'contact person',
+        'contact email'
+    ]]
+    if keyword != "" and category != "Category":
+        ttsh_df = ttsh_df[ttsh_df['speciality'] == category.lower()]
+        ttsh_df['keyword similarity'] = ttsh_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
+        ttsh_df['overall similarity'] = (ttsh_df['similarity'] + ttsh_df['keyword similarity']) / 2
+        ttsh_df = ttsh_df.sort_values('overall similarity', ascending = False)
+        ttsh_df = ttsh_df[ttsh_df['overall similarity'] >= 0.45]
+        search_criteria.append(f"<strong>{keyword.lower()}</strong> (keyword)")
+        search_criteria.append(f"<strong>{category}</strong> (category)")
+    elif keyword != "" and category == "Category":
+        ttsh_df['keyword similarity'] = ttsh_df['keyword'].apply(lambda x: get_keyword_sim(x, keyword.lower()))
+        ttsh_df = ttsh_df.sort_values('keyword similarity', ascending = False)
+        ttsh_df = ttsh_df[ttsh_df['keyword similarity'] >= 0.5]
+        search_criteria.append(f"<strong>{keyword.lower()}</strong> (keyword)")
+    elif keyword == "" and category != "Category":
+        ttsh_df = ttsh_df[ttsh_df['speciality'] == category.lower()]
+        ttsh_df = ttsh_df.sort_values('similarity', ascending = False)
+        ttsh_df = ttsh_df[ttsh_df['similarity'] >= 0.4]
+        search_criteria.append(f"<strong>{category}</strong> (category)")
+    if month != "":
+        search_month = int(month.split("-")[1])
+        search_year = int(month.split("-")[0])
+        ttsh_df = ttsh_df[(ttsh_df['start month'] >= search_month) & (ttsh_df['start year'] >= search_year)]
+        months_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        search_criteria.append(f"<strong>{months_list[search_month - 1]} {search_year}</strong> (month, year)")
+    if mode != "Mode":
+        ttsh_df = ttsh_df[ttsh_df['mode'] == mode]
+        search_criteria.append(f"<strong>{mode}</strong> (mode)")
+    if price != "":
+        if int(price) == 0:
+            ttsh_df = ttsh_df[ttsh_df['fee type'] == "Free"]
+        else:
+            ttsh_df['price'] = ttsh_df['fees'].apply(lambda x: get_price_filter(x))
+            ttsh_df = ttsh_df[ttsh_df['price'] <= int(price)]
+        search_criteria.append(f"<strong>SG${price}</strong> (price)")
+    ttsh_df = ttsh_df.drop_duplicates(subset = ['event name'])
+    events_html = events_html_generator(ttsh_df)
+    search_criteria = "You have searched for " + ", ".join(search_criteria)
+    if ttsh_df.empty:
+        search_criteria = "No events found"
+    if start == '0':
+        search_type = 0
+    elif start == '1':
+        search_type = 1
+    return render_template("search.html", events_html = events_html, search_criteria = search_criteria, search_type = search_type)
 
 if __name__ == '__main__':
     app.run(debug=True, port=os.getenv("PORT", default=5000))
