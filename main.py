@@ -36,6 +36,7 @@ def get_sim(name):
     return df_new.values.tolist()
 
 def create_datetime(df):
+    print(df)
     if df['date present'] == False:
         return datetime(df['start year'], df['start month'], 30)
     else:
@@ -98,7 +99,31 @@ def index():
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
-    events_df = pd.concat([ttsh_df, kkh_df, nuhs_df], axis = 1)
+    events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
+    events_df = pd.DataFrame(events_results, columns = [
+        'event name',
+        'organiser',
+        'speciality',
+        'keyword',
+        'similarity',
+        'date present',
+        'description present',
+        'start year',
+        'start month',
+        'start date',
+        'end year',
+        'end month',
+        'end date',
+        'time present',
+        'start time',
+        'end time',
+        'description',
+        'fee type',
+        'fees',
+        'mode',
+        'venue',
+        'register url'
+    ])
     events_df = events_df[[
         'event name',
         'organiser',
@@ -162,7 +187,31 @@ def events_search(start):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
-    events_df = pd.concat([ttsh_df, kkh_df, nuhs_df], axis = 1)
+    events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
+    events_df = pd.DataFrame(events_results, columns = [
+        'event name',
+        'organiser',
+        'speciality',
+        'keyword',
+        'similarity',
+        'date present',
+        'description present',
+        'start year',
+        'start month',
+        'start date',
+        'end year',
+        'end month',
+        'end date',
+        'time present',
+        'start time',
+        'end time',
+        'description',
+        'fee type',
+        'fees',
+        'mode',
+        'venue',
+        'register url'
+    ])
     events_df = events_df[[
         'event name',
         'organiser',
@@ -237,7 +286,31 @@ def event_details(event_name):
     ttsh_df = pd.read_csv("resources/ttsh.csv")
     kkh_df = pd.read_csv("resources/kkh.csv")
     nuhs_df = pd.read_csv("resources/nuhs.csv")
-    events_df = pd.concat([ttsh_df, kkh_df, nuhs_df], axis = 1)
+    events_results = ttsh_df.values.tolist() + kkh_df.values.tolist() + nuhs_df.values.tolist()
+    events_df = pd.DataFrame(events_results, columns = [
+        'event name',
+        'organiser',
+        'speciality',
+        'keyword',
+        'similarity',
+        'date present',
+        'description present',
+        'start year',
+        'start month',
+        'start date',
+        'end year',
+        'end month',
+        'end date',
+        'time present',
+        'start time',
+        'end time',
+        'description',
+        'fee type',
+        'fees',
+        'mode',
+        'venue',
+        'register url'
+    ])
     events_df = events_df[[
         'event name',
         'organiser',
