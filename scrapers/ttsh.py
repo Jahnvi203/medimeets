@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
-from main import get_sim
+from app import get_sim
 
 print("TTSH Thread Started...")
 ttsh_results = []

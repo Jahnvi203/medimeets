@@ -20,6 +20,10 @@ i {
     font-size: 20px;
 }
 
+#event_details_row {
+    padding: 0px 25px;
+}
+
 .row {
     display: flex;
     align-items: center;
@@ -32,11 +36,11 @@ i {
     align-items: flex-start !important;
 }
 
-.spotlight {
-    width: 100% !important;
+.events_details {
+    color: black !important;
 }
 
-.event_details {
+.spotlight {
     width: 100% !important;
 }
 
@@ -49,20 +53,23 @@ i {
     text-align: center;
 }
 
-.events_details_container {
-    padding: 15px 25px 30px 25px !important;
-    margin: 15px 25px;
-    background-color: #E1EBF5;
-    border: 2px solid #E1EBF5;
-    border-radius: 5px !important;
+.upcoming_events_heading, .recommended_events_heading, .bookmarked_events_heading {
+    margin: 0px 12px 24px 12px;
 }
 
-.upcoming_events_heading {
-    margin: 0px 12px 24px 12px;
+#bookmarked_events {
+    margin-top: 15px;
 }
 
 .slider {
     height: 10px;
+}
+
+.upcoming_event_image {
+    width: 100%;
+    border-radius: 5px;
+    opacity: 0.2;
+    object-fit: cover;
 }
 
 .event_image {
@@ -75,54 +82,68 @@ i {
     font-weight: bold;
     color: #C3272D;
     margin-bottom: 5px;
-}
-
-.event_details_name {
-    margin-top: 5px !important;
-    margin-bottom: 25px !important;
+    display: -webkit-box;
+    width: auto;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .event_description {
     font-size: 0.8rem !important;
     margin-bottom: 5px;
+    display: -webkit-box;
+    width: auto;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .event_container {
-    background-color: #F5F5F5;
-    border: 2px solid #F5F5F5;
+    background-color: #FCFBF9;
+    border: 2px solid #FCFBF9;
     border-radius: 5px !important;
     padding: 15px 25px 20px 20px;
 }
 
-.event_details {
+.event_details_name {
+    color: #C3272D;
+}
+
+.upcoming_event_details {
     margin-bottom: 0px;
+    color: black;
+    display: -webkit-box;
+    width: auto;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.event_search_details {
+    margin-bottom: 0px;
+    color: black;
 }
 
 button {
     font-size: 0.8rem;
-    font-weight: bold;
-    color: white;
-    background-color: #C3272D;
-    border: 2px solid #C3272D;
+    background-color: #FFCCCB;
+    border: 2px solid #FFCCCB;
     border-radius: 5px !important;
     padding: 5px 10px;
 }
 
 button:disabled {
     font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: rgba(195, 39, 45, 0.5);
-    border: 2px solid rgba(195, 39, 45, 0.0);
+    background-color: #FFCCCB;
+    border: 2px solid #FFCCCB;
     border-radius: 5px !important;
-    padding: 5px 10px;   
+    padding: 5px 10px;
 }
 
 input[type=submit] {
-    font-weight: bold;
-    color: white;
-    background-color: #C3272D;
-    border: 2px solid #C3272D;
+    background-color: #FFCCCB;
+    border: 2px solid #FFCCCB;
     border-radius: 5px !important;
     padding: 5px 10px;
 }
@@ -130,4 +151,108 @@ input[type=submit] {
 .events_search_criteria {
     color: #C3272D;
     margin: 12px;
+}
+
+#keyword, #month {
+    width: 180px;
+}
+
+input[type=range] {
+    width: 80px;
+}
+
+.event_find_button {
+    background-color: #E1EBF5 !important;
+    border: 2px solid #E1EBF5 !important;
+}
+
+#signup_login {
+    text-align: right;
+}
+
+#signup {
+    margin-right: 10px;
+    background-color: #E1EBF5 !important;
+    border: 2px solid #E1EBF5 !important;
+}
+
+#login, #logout {
+    margin-right: 10px;
+}
+
+.event_details {
+    text-align: left;
+    margin: 15px 0px !important;
+}
+
+.event_details_card {
+    text-align: center;
+    padding: 3rem !important;
+    border-radius: 5px;
+    background: 
+        linear-gradient(
+            rgba(255, 255, 255, 0.80),
+            rgba(255, 255, 255, 0.80)
+        ),
+        url("https://www.americanoceans.org/wp-content/uploads/2021/06/shutterstock_1807037047-scaled.jpg");
+}
+
+.upcoming_event_card {
+    padding: 15px;
+    border-radius: 5px;
+    background: 
+        linear-gradient(
+            rgba(255, 255, 255, 0.80),
+            rgba(255, 255, 255, 0.80)
+        ),
+        url("https://www.americanoceans.org/wp-content/uploads/2021/06/shutterstock_1807037047-scaled.jpg");
+}
+
+#login_row {
+    text-align: center;
+    padding: 15px;
+}
+
+ul {
+    justify-content: center;
+}
+
+.login_text {
+    text-align: center !important;
+    color: #6E6A6A;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.page_heading {
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.bookmark_div {
+    text-align: right !important;
+}
+
+.bi-bookmark-star-fill {
+    font-size: 30px;
+}
+
+.bookmarked {
+    color: #B59916;
+    width: 30px;
+    height: 30px;
+}
+
+.bookmark {
+    color: #6E6A6A;
+    width: 30px;
+    height: 30px;
+}
+
+.session_user_name {
+    margin-left: 5px;
 }
