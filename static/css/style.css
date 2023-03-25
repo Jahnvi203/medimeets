@@ -256,3 +256,21 @@ ul {
 .session_user_name {
     margin-left: 5px;
 }
+
+.form-inline {
+    font-size: 0.8rem !important;
+}
+
+.form-inline input {
+    width: auto !important;
+}
+
+.form-inline input[type=range] {
+    width: 80px !important;
+}
+
+.navbar-brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
