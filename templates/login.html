@@ -20,69 +20,69 @@
     <nav class="navbar">
         <a class="navbar-brand" href="/">
             <img src="../static/images/logo.png" class="d-inline-block align-top" id="logo">
-            <form class="form-inline" action="{{ url_for('events_search') }}" method="post">
-                <input name="keyword" id="keyword" type="text" class="input" placeholder="Enter Keyword" hidden>
-                <select name="category" id="category">
-                    <option value="Category">Category</option>
-                    <option value="Anaesthesiology">Anaesthesiology</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Cardiothoracic Surgery">Cardiothoracic Surgery</option>
-                    <option value="Dermatology">Dermatology</option>
-                    <option value="Diagnostic Radiology">Diagnostic Radiology</option>
-                    <option value="Emergency Medicine">Emergency Medicine</option>
-                    <option value="Endocrinology">Endocrinology</option>
-                    <option value="Gastroenterology">Gastroenterology</option>
-                    <option value="General Surgery">General Surgery</option>
-                    <option value="Geriatric Medicine">Geriatric Medicine</option>
-                    <option value="Haematology">Haematology</option>
-                    <option value="Hand Surgery">Hand Surgery</option>
-                    <option value="Infectious Diseases">Infectious Diseases</option>
-                    <option value="Internal Medicine">Internal Medicine</option>
-                    <option value="Medical Oncology">Medical Oncology</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Neurosurgery">Neurosurgery</option>
-                    <option value="Nuclear Medicine">Nuclear Medicine</option>
-                    <option value="Obstetrics & Gynaecology">Obstetrics & Gynaecology</option>
-                    <option value="Occupational Medicine">Occupational Medicine</option>
-                    <option value="Ophthalmology">Ophthalmology</option>
-                    <option value="Orthopaedic Surgery">Orthopaedic Surgery</option>
-                    <option value="Otorhinolaryngology/ENT">Otorhinolaryngology/ENT</option>
-                    <option value="Paediatric Medicine">Paediatric Medicine</option>
-                    <option value="Paediatric Surgery">Paediatric Surgery</option>
-                    <option value="Pathology">Pathology</option>
-                    <option value="Plastic Surgery">Plastic Surgery</option>
-                    <option value="Psychiatry">Psychiatry</option>
-                    <option value="Public Health">Public Health</option>
-                    <option value="Radiation Oncology">Radiation Oncology</option>
-                    <option value="Rehabilitation Medicine">Rehabilitation Medicine</option>
-                    <option value="Renal Medicine">Renal Medicine</option>
-                    <option value="Respiratory Medicine">Respiratory Medicine</option>
-                    <option value="Rheumatology">Rheumatology</option>
-                    <option value="Urology">Urology</option>
-                </select>
-                <input name="month" id="month" type="month" class="input" placeholder="Month & Year">
-                <div class="input">
-                    <label for="price">Price</label>
-                    <input type="range" min="0" max="1000" value="0" name="price" class="slider" id="price_range">
-                    <span id="currency">S$</span><span id="price_filter"></span>
-                    <script>
-                        let slider = document.getElementById("price_range");
-                        let price_filter = document.getElementById("price_filter");
-                        price_filter.innerHTML = slider.value;
-                        slider.oninput = function() {
-                            price_filter.innerHTML = this.value;
-                        }
-                    </script>
-                </div>
-                <select name="mode" id="mode">
-                    <option value="Mode">Mode</option>
-                    <option value="Face-to-Face">Face-to-Face</option>
-                    <option value="Virtual">Virtual</option>
-                </select>
-                <input id="home_search" type="submit" value="Browse Events">
-                </div>
-            </form>
         </a>
+        <form class="form-inline" action="{{ url_for('events_search') }}" method="post">
+            <input name="keyword" id="keyword" type="text" class="input" placeholder="Enter Keyword" hidden>
+            <select name="category" id="category">
+                <option value="Category">Category</option>
+                <option value="Anaesthesiology">Anaesthesiology</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Cardiothoracic Surgery">Cardiothoracic Surgery</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Diagnostic Radiology">Diagnostic Radiology</option>
+                <option value="Emergency Medicine">Emergency Medicine</option>
+                <option value="Endocrinology">Endocrinology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="General Surgery">General Surgery</option>
+                <option value="Geriatric Medicine">Geriatric Medicine</option>
+                <option value="Haematology">Haematology</option>
+                <option value="Hand Surgery">Hand Surgery</option>
+                <option value="Infectious Diseases">Infectious Diseases</option>
+                <option value="Internal Medicine">Internal Medicine</option>
+                <option value="Medical Oncology">Medical Oncology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Neurosurgery">Neurosurgery</option>
+                <option value="Nuclear Medicine">Nuclear Medicine</option>
+                <option value="Obstetrics & Gynaecology">Obstetrics & Gynaecology</option>
+                <option value="Occupational Medicine">Occupational Medicine</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Orthopaedic Surgery">Orthopaedic Surgery</option>
+                <option value="Otorhinolaryngology/ENT">Otorhinolaryngology/ENT</option>
+                <option value="Paediatric Medicine">Paediatric Medicine</option>
+                <option value="Paediatric Surgery">Paediatric Surgery</option>
+                <option value="Pathology">Pathology</option>
+                <option value="Plastic Surgery">Plastic Surgery</option>
+                <option value="Psychiatry">Psychiatry</option>
+                <option value="Public Health">Public Health</option>
+                <option value="Radiation Oncology">Radiation Oncology</option>
+                <option value="Rehabilitation Medicine">Rehabilitation Medicine</option>
+                <option value="Renal Medicine">Renal Medicine</option>
+                <option value="Respiratory Medicine">Respiratory Medicine</option>
+                <option value="Rheumatology">Rheumatology</option>
+                <option value="Urology">Urology</option>
+            </select>
+            <input name="month" id="month" type="month" class="input" placeholder="Month & Year">
+            <div class="input">
+                <label for="price">Price</label>
+                <input type="range" min="0" max="1000" value="0" name="price" class="slider" id="price_range">
+                <span id="currency">S$</span><span id="price_filter"></span>
+                <script>
+                    let slider = document.getElementById("price_range");
+                    let price_filter = document.getElementById("price_filter");
+                    price_filter.innerHTML = slider.value;
+                    slider.oninput = function() {
+                        price_filter.innerHTML = this.value;
+                    }
+                </script>
+            </div>
+            <select name="mode" id="mode">
+                <option value="Mode">Mode</option>
+                <option value="Face-to-Face">Face-to-Face</option>
+                <option value="Virtual">Virtual</option>
+            </select>
+            <input id="home_search" type="submit" value="Browse Events">
+            </div>
+        </form>
         <div id="signup_login">
             {% if session['user_email'] %}
                 <a href="/logout"><button id="logout">Log Out</button></a>
